@@ -26,15 +26,38 @@ const app = initializeApp(firebaseConfig)
 const db = getFirestore(app)
 
 
+export {
+  db,
+  collection, 
+  getDocs
+}
+
+
+
 // --------------------------------------------------------------------------
 
+// Função - Criar Barra de Navegação
+export function navegacao() {
+  let nav = document.createElement('nav')
+  document.querySelector('.conteudo').prepend(nav)
 
-// Gerar ID
-function gerarID() { 
-  return Math.random().toString(36).substring(2, 6) }
+  nav.innerHTML =
+  `
+  <a href="#">Home</a>
+  <a href="notas.html">Notas</a>
+  <a href="#">Contas</a>
+  <a href="config.html">Config.</a>
+  `
+}
+
+
+// Função - Gerar Identificador Aleatório
+export function gerarIdentificador() { 
+  return Math.random().toString(36).substring(2, 6) 
+}
 
 // Função - Modal
-function modal() {
+export function modal() {
   
   let overlay = document.createElement('div')
   overlay.classList.add('overlay')
@@ -51,37 +74,24 @@ function modal() {
 }
 
 // Função - Alerta
-function alerta(txt , tempo) {
+export function alerta(texto , tempo) {
   document.querySelector('.alerta')?.remove()
   let alerta = document.createElement('div')
   alerta.classList.add('alerta')
   document.body.prepend(alerta)
 
-  alerta.innerHTML = `<i class="fa-solid fa-info"></i> ${txt}`
+  alerta.innerHTML = `<i class="fa-solid fa-info"></i> ${texto}`
   setTimeout(() => { document.querySelector('.alerta').remove() }, tempo || 1500)
 }
 
-// Função - Loop
-function loop() {
+// Função - Loop de Carregamento
+export function loop() {
   let loop = document.createElement('div')
   loop.classList.add('loop')
   loop.innerHTML = '<img src="carregando.gif" class="gif" width="120px">'
   document.body.prepend(loop)
 }
 
-
-// Navegação
-function navegacao() {
-  let nav = document.createElement('nav')
-  document.querySelector('.conteudo').prepend(nav)
-
-  nav.innerHTML =
-  `
-  <a href="#"><i class="fa-solid fa-pen-clip"></i> Notas</a>
-  <a href="#"><i class="fa-solid fa-piggy-bank"></i> Financeiro</a>
-  <a href="#"><i class="fa-solid fa-gears"></i> Gerencial</a>
-  `
-}
 
 // Tela de Login
 if (window.location.pathname.includes('index.html')) {
@@ -114,20 +124,4 @@ if (window.location.pathname.includes('index.html')) {
   }
 }
 
-// Tela de Login
-if (window.location.pathname.includes('notas.html')) {
-  navegacao()
-  let usuario = localStorage.getItem('usuario')
-  alerta('Seja bem vindo ' + usuario + '!' , 1500)
 
-  listarNotas()
-  async function listarNotas() {
-    let notasREF = collection(db, 'usuarios', usuario, 'notas')
-    let consulta = await getDocs(notasREF)
-    consulta.forEach(e => {
-      let dados = e.data()
-      console.log(dados.nome)
-    })
-
-  }
-}
