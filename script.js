@@ -2,13 +2,13 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebas
 
 import { 
   getFirestore, 
-  doc, 
-  getDoc, 
-  setDoc, 
-  collection, 
-  getDocs, 
-  updateDoc, 
+  doc,
+  collection,
+  getDoc,
+  setDoc,
+  updateDoc,
   deleteDoc,
+  getDocs,
   query,
   where,
   orderBy
@@ -28,11 +28,17 @@ const db = getFirestore(app)
 
 export {
   db,
-  collection, 
-  getDocs
+  doc,
+  collection,
+  getDoc,
+  setDoc,
+  updateDoc,
+  deleteDoc,
+  getDocs,
+  query,
+  where,
+  orderBy
 }
-
-
 
 // --------------------------------------------------------------------------
 
@@ -44,12 +50,11 @@ export function navegacao() {
   nav.innerHTML =
   `
   <a href="#">Home</a>
-  <a href="notas.html">Notas</a>
+  <a href="notas.html" class="notas">Notas</a>
   <a href="#">Contas</a>
-  <a href="config.html">Config.</a>
+  <a href="config.html" class="config">Config.</a>
   `
 }
-
 
 // Função - Gerar Identificador Aleatório
 export function gerarIdentificador() { 
@@ -63,13 +68,13 @@ export function modal() {
   overlay.classList.add('overlay')
   document.body.prepend(overlay)
 
-  
   let modal = document.createElement('div')
   modal.classList.add('modal')
   overlay.prepend(modal)
 
   modal.innerHTML = 
   `
+  <div class="conteudoModal"></div>
   `
 }
 
@@ -91,37 +96,4 @@ export function loop() {
   loop.innerHTML = '<img src="carregando.gif" class="gif" width="120px">'
   document.body.prepend(loop)
 }
-
-
-// Tela de Login
-if (window.location.pathname.includes('index.html')) {
-  document.querySelector('.inputUsuario').focus()
-
-  let btnLogin = document.querySelector('.btnLogin')
-  btnLogin.onclick = ()=> { login() }
-  window.addEventListener('keydown', (e) => { if (e.key === 'Enter') login() })
-
-  async function login() {
-    let inputUsuario = document.querySelector('.inputUsuario').value.trim().toLowerCase()
-    let inputSenha = document.querySelector('.inputSenha').value.trim().toLowerCase()
-
-    if (!inputUsuario || !inputSenha){
-      alerta('Preencha todos os campos!')
-      return
-    }
-
-    let usuarios = collection(db, 'usuarios')
-    let filtro = query(usuarios, where("login", "==", inputUsuario) , where("senha", "==", inputSenha))
-    let consulta = await getDocs(filtro)
-
-    if (!consulta.empty) {
-      let docSnap = consulta.docs[0]
-      let usuario = docSnap.data()
-
-      localStorage.setItem('usuario', usuario.id)
-      window.location.href = 'notas.html'
-    } else { alerta('Usuário não encontrado ou senha incorreta!') }
-  }
-}
-
 
