@@ -45,7 +45,7 @@ export {
 // Função - Criar Barra de Navegação
 export function navegacao() {
   let nav = document.createElement('nav')
-  document.querySelector('.conteudo').prepend(nav)
+  document.body.prepend(nav)
 
   nav.innerHTML =
   `
@@ -62,7 +62,7 @@ export function gerarIdentificador() {
 }
 
 // Função - Modal
-export function modal() {
+export function modal(e) {
   
   let overlay = document.createElement('div')
   overlay.classList.add('overlay')
@@ -70,7 +70,10 @@ export function modal() {
 
   let modal = document.createElement('div')
   modal.classList.add('modal')
+  modal.style.maxWidth = `${e}px`
   overlay.prepend(modal)
+
+
 
   modal.innerHTML = 
   `
@@ -97,3 +100,5 @@ export function loop() {
   document.body.prepend(loop)
 }
 
+// Função - Loop de Carregamento
+export function removeLoop() { document.querySelector('.loop')?.remove() }

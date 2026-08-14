@@ -12,7 +12,7 @@ import {
   orderBy
 } from './script.js'
 
-import { navegacao , gerarIdentificador , modal , alerta , loop } from './script.js'
+import { navegacao , gerarIdentificador , modal , alerta , loop, removeLoop } from './script.js'
 
 navegacao()
 document.querySelector('.notas').classList.add('destaque')
@@ -23,6 +23,9 @@ let menuNotas = document.querySelector('.menuNotas')
 // Listar Notas
 listarNotas()
 async function listarNotas() {
+    loop()
+    menuNotas.innerHTML = ''
+
     let notasREF = collection(db, 'usuarios', usuario, 'notas')
     let consulta = await getDocs(notasREF)
     if (!consulta.empty) {
@@ -31,48 +34,169 @@ async function listarNotas() {
             let nota = document.createElement('div')
             nota.classList.add('nota')
             nota.id = e.id
-            nota.textContent = dados.nome
+            nota.innerHTML = `${dados.nome}`
             menuNotas.prepend(nota)
         })
     } else { menuNotas.innerHTML = `<p style='text-align: center;'>Nenhuma nota cadastrada!</p>`}
+    removeLoop()
 }
 
 
 menuNotas.addEventListener('click', (e) => {
+    if (e?.target) e.target.blur()
+    e.preventDefault()
+
     let nota = e.target.closest('.nota')
-    if (nota) { visualizarNota(nota.id, nota) }
+    if (nota) { visualizarNota(nota.id) }
 })
 
-async function visualizarNota(id, elemento) {
-
+// Visualizar Notas
+async function visualizarNota(id) {
+    loop()
     let notaREF = doc(db, 'usuarios', usuario, 'notas', id)
     let consulta = await getDoc(notaREF)
     let dados = consulta.data()
+    removeLoop()
 
-  console.log(`Nota clicada iD: ${id}`)
+    console.log('Nota clicada: ' + id )
 
     modal()
     let conteudoModal = document.querySelector('.conteudoModal')
-
     conteudoModal.innerHTML =
     `
     <div style=" display: flex; align-items: center; justify-content: space-between; "> 
-        <b>${elemento.textContent} </b>
+        <b style=' font-size: 22px; '>${dados.nome}</b>
         <button class="btnFecharModal">Fechar <i class="fa-regular fa-circle-xmark"></i></button>
     </div>
     <div class="editor" contenteditable="true">
-        ${dados.conteudo}
+        ${dados.conteudo || ''}
     </div>
     <div style=" display: flex; gap: 10px; ">
-        <button>Salvar <i class="fa-solid fa-sd-card"></i></button>
-        <button>Renomear <i class="fa-solid fa-feather"></i></button>
-        <button>Deletar <i class="fa-solid fa-trash"></i></button>
+        <button class='btnSalvarNota'>Salvar <i class="fa-solid fa-sd-card"></i></button>
+        <button class='btnRenomearNota'>Renomear <i class="fa-solid fa-feather"></i></button>
+        <button class='btnDeletarNota'>Deletar <i class="fa-solid fa-trash"></i></button>
     </div>
     `
 
     // Fechar Modal
-    document.querySelector('.btnFecharModal').onclick = ()=> { 
+    document.querySelector('.btnFecharModal').onclick = (e)=> {
         document.querySelector('.overlay')?.remove() 
     }
 
+    // Chamada - Salvar Nota
+    document.querySelector('.btnSalvarNota').onclick = (e)=> {
+        salvarNota(id)
+    }
+
+    // Chamada - Renomear Nota
+    document.querySelector('.btnRenomearNota').onclick = (e)=> {
+        renomearNota(id, dados.nome)
+    }
+
+    // Chamada - Deletar Nota
+    document.querySelector('.btnDeletarNota').onclick = (e)=> {
+        deletarNota(id)
+    }
+
+}
+
+async function salvarNota(id) {
+    loop()
+    let notaREF = doc(db, 'usuarios', usuario, 'notas', id)
+    let consulta = await getDoc(notaREF)
+    
+    let novoConteudo = document.querySelector('.editor').innerHTML
+
+    // Remove todos os atributos style="..." das tags HTML antes de salvar
+    novoConteudo = novoConteudo.replace(/style="[^"]*"/gi, '')
+    
+    await updateDoc(notaREF, {
+        conteudo: novoConteudo
+    })
+    removeLoop()
+    alerta('Nota salva com sucesso!')
+}
+
+async function renomearNota(id, nome) {
+    
+    document.querySelector('.modal')?.remove()
+    document.querySelector('.overlay')?.remove()
+
+    modal(320)
+    let conteudoModal = document.querySelector('.conteudoModal')
+    conteudoModal.innerHTML =
+    `
+    <p>Renomear Nota:</p>
+    <input type="text" value="${nome}" class="novoNome">
+
+    <div style=" display: flex; gap: 10px; ">
+        <button class="btnCancelar">Cancelar <i class="fa-regular fa-circle-xmark"></i></button>
+        <button class="btnConfirmar">confirmar <i class="fa-regular fa-circle-check"></i></button>
+    </div>
+    `
+
+    // Cancelar
+    document.querySelector('.btnCancelar').onclick = ()=> {
+        document.querySelector('.modal')?.remove()
+        document.querySelector('.overlay')?.remove()
+        visualizarNota(id)
+    }
+
+    // Confirmar
+    document.querySelector('.btnConfirmar').onclick = async ()=> {
+        let novoNome = document.querySelector('.novoNome').value.trim()
+
+        loop()
+        let notaREF = doc(db, 'usuarios', usuario, 'notas', id)
+        let consulta = await getDoc(notaREF)
+
+        await updateDoc(notaREF, { nome: novoNome })
+        document.querySelector('.modal')?.remove()
+        document.querySelector('.overlay')?.remove()
+
+        await listarNotas()
+        removeLoop()
+        alerta('Nota renomeada com sucesso!')
+        visualizarNota(id)
+    }
+
+}
+
+async function deletarNota(id) {
+    document.querySelector('.modal')?.remove()
+    document.querySelector('.overlay')?.remove()
+
+    modal(280)
+    let conteudoModal = document.querySelector('.conteudoModal')
+    conteudoModal.innerHTML =
+    `
+    <p>Tem certeza que deseja deletar?</p>
+
+    <div style=" display: flex; gap: 10px; ">
+        <button class="btnCancelar">Cancelar <i class="fa-regular fa-circle-xmark"></i></button>
+        <button class="btnConfirmar">confirmar <i class="fa-regular fa-circle-check"></i></button>
+    </div>
+    `
+
+    // Cancelar
+    document.querySelector('.btnCancelar').onclick = ()=> {
+        document.querySelector('.modal')?.remove()
+        document.querySelector('.overlay')?.remove()
+        visualizarNota(id)
+    }
+
+    // Confirmar
+    document.querySelector('.btnConfirmar').onclick = async ()=> {
+        loop()
+        let notaREF = doc(db, 'usuarios', usuario, 'notas', id)
+        let consulta = await getDoc(notaREF)
+
+        await deleteDoc(notaREF)
+        document.querySelector('.modal')?.remove()
+        document.querySelector('.overlay')?.remove()
+
+        await listarNotas()
+        removeLoop()
+        alerta('Nota deletada com sucesso!')
+    }
 }
