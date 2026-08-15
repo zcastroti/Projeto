@@ -17,8 +17,59 @@ import { navegacao , gerarIdentificador , modal , alerta , loop, removeLoop } fr
 navegacao()
 document.querySelector('.notas').classList.add('destaque')
 
-let usuario = localStorage.getItem('usuario')
+const USUARIO = localStorage.getItem('usuario')
 let menuNotas = document.querySelector('.menuNotas')
+
+
+// Adicionar Nota
+adicionarNota()
+function adicionarNota() {
+    let btnAdicionarNota = document.querySelector('.btnAdicionarNota')
+    btnAdicionarNota.onclick = () => {
+        modal(320)
+        let conteudoModal = document.querySelector('.conteudoModal')
+        conteudoModal.innerHTML =
+        `
+        <p>Nova Nota:</p>
+        <input type="text" class="nome">
+
+        <div style=" display: flex; gap: 10px; ">
+            <button class="btnCancelar">Cancelar <i class="fa-regular fa-circle-xmark"></i></button>
+            <button class="btnConfirmar">confirmar <i class="fa-regular fa-circle-check"></i></button>
+        </div>
+        `
+
+        document.querySelector('.nome').focus()
+
+        // Cancelar
+        document.querySelector('.btnCancelar').onclick = ()=> {
+            document.querySelector('.modal')?.remove()
+            document.querySelector('.overlay')?.remove()
+        }
+
+        // Confirmar
+        document.querySelector('.btnConfirmar').onclick = async ()=> {
+            let nome = document.querySelector('.nome').value.trim()
+            if (!nome) return
+
+            let id = gerarIdentificador()
+            let notaREF = doc(db, 'usuarios', USUARIO, 'notas', id)
+            
+            loop()
+            await setDoc(notaREF, { nome: nome })
+            removeLoop()
+
+            document.querySelector('.modal')?.remove()
+            document.querySelector('.overlay')?.remove()
+
+            await listarNotas()
+            
+            alerta('Nota cadastrada com sucesso!')
+            visualizarNota(id)
+        }
+    }
+}
+
 
 // Listar Notas
 listarNotas()
@@ -26,7 +77,7 @@ async function listarNotas() {
     loop()
     menuNotas.innerHTML = ''
 
-    let notasREF = collection(db, 'usuarios', usuario, 'notas')
+    let notasREF = collection(db, 'usuarios', USUARIO, 'notas')
     let consulta = await getDocs(notasREF)
     if (!consulta.empty) {
         consulta.forEach(e => {
@@ -41,7 +92,6 @@ async function listarNotas() {
     removeLoop()
 }
 
-
 menuNotas.addEventListener('click', (e) => {
     if (e?.target) e.target.blur()
     e.preventDefault()
@@ -53,7 +103,7 @@ menuNotas.addEventListener('click', (e) => {
 // Visualizar Notas
 async function visualizarNota(id) {
     loop()
-    let notaREF = doc(db, 'usuarios', usuario, 'notas', id)
+    let notaREF = doc(db, 'usuarios', USUARIO, 'notas', id)
     let consulta = await getDoc(notaREF)
     let dados = consulta.data()
     removeLoop()
@@ -71,7 +121,7 @@ async function visualizarNota(id) {
     <div class="editor" contenteditable="true">
         ${dados.conteudo || ''}
     </div>
-    <div style=" display: flex; gap: 10px; ">
+    <div class="btnsVisualizarNota" style=" display: flex; gap: 10px; ">
         <button class='btnSalvarNota'>Salvar <i class="fa-solid fa-sd-card"></i></button>
         <button class='btnRenomearNota'>Renomear <i class="fa-solid fa-feather"></i></button>
         <button class='btnDeletarNota'>Deletar <i class="fa-solid fa-trash"></i></button>
@@ -84,25 +134,19 @@ async function visualizarNota(id) {
     }
 
     // Chamada - Salvar Nota
-    document.querySelector('.btnSalvarNota').onclick = (e)=> {
-        salvarNota(id)
-    }
+    document.querySelector('.btnSalvarNota').onclick = (e)=> { salvarNota(id) }
 
     // Chamada - Renomear Nota
-    document.querySelector('.btnRenomearNota').onclick = (e)=> {
-        renomearNota(id, dados.nome)
-    }
+    document.querySelector('.btnRenomearNota').onclick = (e)=> { renomearNota(id, dados.nome) }
 
     // Chamada - Deletar Nota
-    document.querySelector('.btnDeletarNota').onclick = (e)=> {
-        deletarNota(id)
-    }
+    document.querySelector('.btnDeletarNota').onclick = (e)=> { deletarNota(id) }
 
 }
 
 async function salvarNota(id) {
     loop()
-    let notaREF = doc(db, 'usuarios', usuario, 'notas', id)
+    let notaREF = doc(db, 'usuarios', USUARIO, 'notas', id)
     let consulta = await getDoc(notaREF)
     
     let novoConteudo = document.querySelector('.editor').innerHTML
@@ -117,8 +161,7 @@ async function salvarNota(id) {
     alerta('Nota salva com sucesso!')
 }
 
-async function renomearNota(id, nome) {
-    
+async function renomearNota(id, nome) {  
     document.querySelector('.modal')?.remove()
     document.querySelector('.overlay')?.remove()
 
@@ -135,6 +178,8 @@ async function renomearNota(id, nome) {
     </div>
     `
 
+    document.querySelector('.novoNome').focus()
+
     // Cancelar
     document.querySelector('.btnCancelar').onclick = ()=> {
         document.querySelector('.modal')?.remove()
@@ -147,7 +192,7 @@ async function renomearNota(id, nome) {
         let novoNome = document.querySelector('.novoNome').value.trim()
 
         loop()
-        let notaREF = doc(db, 'usuarios', usuario, 'notas', id)
+        let notaREF = doc(db, 'usuarios', USUARIO, 'notas', id)
         let consulta = await getDoc(notaREF)
 
         await updateDoc(notaREF, { nome: novoNome })
@@ -159,7 +204,6 @@ async function renomearNota(id, nome) {
         alerta('Nota renomeada com sucesso!')
         visualizarNota(id)
     }
-
 }
 
 async function deletarNota(id) {
@@ -188,7 +232,7 @@ async function deletarNota(id) {
     // Confirmar
     document.querySelector('.btnConfirmar').onclick = async ()=> {
         loop()
-        let notaREF = doc(db, 'usuarios', usuario, 'notas', id)
+        let notaREF = doc(db, 'usuarios', USUARIO, 'notas', id)
         let consulta = await getDoc(notaREF)
 
         await deleteDoc(notaREF)

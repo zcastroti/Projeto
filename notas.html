@@ -11,7 +11,64 @@
     <main class="conteudo">
         <div class="menuNotas">
         </div>
+
+        <button class="btnAdicionarNota">Adicionar Nota <i class="fa-solid fa-circle-plus"></i></button>
     </main>
+
+<style>
+    /*--------------------
+        Anotações
+    --------------------*/
+    .menuNotas {
+        display: flex; flex-flow: column; gap: 10px;
+        width: 100%;
+        max-width: 600px;
+        padding-bottom: 10px;
+        margin: 0 auto; }
+
+    .nota {
+        display: flex; align-items: center; 
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        text-align: center;
+        background: #e2e2e2; }
+
+    .nota:hover { 
+        transition: .8s;
+        background: #cccccc; }
+
+    .editor {
+        background: whitesmoke;
+        border: solid 1px #cccccc;
+        overflow: hidden;
+        overflow-y: scroll;
+        height: 350px;
+        padding: 5px; }
+
+    .editor::-webkit-scrollbar  { display: block; width: 5px; }
+    .editor::-webkit-scrollbar-track { background: #00000080; }
+    .editor::-webkit-scrollbar-thumb { background: #282828; }
+
+
+    .btnAdicionarNota {
+        background: #b9d4f0;
+        position: fixed;
+        bottom: 40px;
+        right: 20px;
+        padding: 30px 40px; }
+
+
+    @media screen and (max-width: 400px) {
+        .btnsVisualizarNota button { padding: 5px;  }
+    }
+
+    @media screen and (max-height: 400px) {
+        .editor { height: 200px;  }
+    }
+
+
+</style>
 
     <script type="module" src="notas.js"></script>
     <script src="https://kit.fontawesome.com/ac3bdc8044.js" crossorigin="anonymous"></script>
