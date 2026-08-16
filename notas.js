@@ -31,11 +31,11 @@ function adicionarNota() {
         conteudoModal.innerHTML =
         `
         <p>Nova Nota:</p>
-        <input type="text" class="nome">
+        <input type="text" class="nome" maxlength="15">
 
         <div style=" display: flex; gap: 10px; ">
             <button class="btnCancelar">Cancelar <i class="fa-regular fa-circle-xmark"></i></button>
-            <button class="btnConfirmar">confirmar <i class="fa-regular fa-circle-check"></i></button>
+            <button class="btnConfirmar">Confirmar <i class="fa-regular fa-circle-check"></i></button>
         </div>
         `
 
@@ -174,7 +174,7 @@ async function renomearNota(id, nome) {
 
     <div style=" display: flex; gap: 10px; ">
         <button class="btnCancelar">Cancelar <i class="fa-regular fa-circle-xmark"></i></button>
-        <button class="btnConfirmar">confirmar <i class="fa-regular fa-circle-check"></i></button>
+        <button class="btnConfirmar">Confirmar <i class="fa-regular fa-circle-check"></i></button>
     </div>
     `
 
@@ -218,7 +218,7 @@ async function deletarNota(id) {
 
     <div style=" display: flex; gap: 10px; ">
         <button class="btnCancelar">Cancelar <i class="fa-regular fa-circle-xmark"></i></button>
-        <button class="btnConfirmar">confirmar <i class="fa-regular fa-circle-check"></i></button>
+        <button class="btnConfirmar">Confirmar <i class="fa-regular fa-circle-check"></i></button>
     </div>
     `
 

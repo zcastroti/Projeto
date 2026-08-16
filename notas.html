@@ -20,26 +20,27 @@
         Anotações
     --------------------*/
     .menuNotas {
-        display: flex; flex-flow: column; gap: 10px;
+        display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; 
         width: 100%;
         max-width: 600px;
         padding-bottom: 10px;
         margin: 0 auto; }
 
     .nota {
-        display: flex; align-items: center; 
-        padding: 10px;
+        display: flex; align-items: center;  justify-content: center;
+        padding: 25px 20px;
         cursor: pointer;
         border-radius: 5px;
-        text-align: center;
-        background: #e2e2e2; }
+        background: white;
+        border: 1px solid #cccccc;
+        box-shadow: 0 2px 4px #0000000d; }
 
     .nota:hover { 
         transition: .8s;
         background: #cccccc; }
 
     .editor {
-        background: whitesmoke;
+        background: #e9f0f9;
         border: solid 1px #cccccc;
         overflow: hidden;
         overflow-y: scroll;
@@ -52,15 +53,17 @@
 
 
     .btnAdicionarNota {
-        background: #b9d4f0;
+        background: #9faabf82;
         position: fixed;
         bottom: 40px;
         right: 20px;
-        padding: 30px 40px; }
+        padding: 30px 20px; }
 
 
-    @media screen and (max-width: 400px) {
-        .btnsVisualizarNota button { padding: 5px;  }
+    @media screen and (max-width: 450px) {
+        .btnsVisualizarNota button { padding: 5px; gap: 5px; }
+        .nota { flex: content; padding: 15px 10px; }
+
     }
 
     @media screen and (max-height: 500px) {

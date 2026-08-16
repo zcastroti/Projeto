@@ -11,7 +11,7 @@
     <main class="conteudo">
         <p class="nomeUsuario"><i class="fa-solid fa-user"></i></p>
 
-        <div style="  display: flex; flex-flow: column; gap: 10px; max-width: 500px; margin: 0px auto; ">
+        <div class=" btnsConfig ">
             <button class="btnEncerrarSessao">Encerrar Sessão <i class="fa-solid fa-right-from-bracket"></i></button>
             <button class="btnAtualizarDados">Atualizar Dados <i class="fa-solid fa-user-pen"></i></button>
         </div>
@@ -28,6 +28,23 @@
         padding: 40px;
         background: #d0d0e7;
         border-radius: 40% 60% 65% 35% / 40% 35% 65% 60%; }
+
+    .btnsConfig {
+        display: flex; flex-flow: row; gap: 20px; 
+        max-width: 500px; margin: 0px auto;
+        padding-top: 20px;
+    }
+
+    .btnsConfig button { 
+        padding: 30px 20px;
+    }
+
+    @media screen and (max-width: 450px) {
+         .btnsConfig { flex-flow: column;  }
+    }
+
+
+
 
     </style>
 

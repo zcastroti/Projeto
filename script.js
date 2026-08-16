@@ -49,7 +49,7 @@ export function navegacao() {
 
   nav.innerHTML =
   `
-  <a href="#">Home</a>
+  <a href="">Home</a>
   <a href="notas.html" class="notas">Notas</a>
   <a href="#">Contas</a>
   <a href="config.html" class="config">Config.</a>
@@ -100,5 +100,7 @@ export function loop() {
   document.body.prepend(loop)
 }
 
-// Função - Loop de Carregamento
-export function removeLoop() { document.querySelector('.loop')?.remove() }
+// Função - Remover Loop de Carregamento
+export function removeLoop() { 
+  document.querySelector('.loop')?.remove() 
+}

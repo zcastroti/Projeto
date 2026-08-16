@@ -47,7 +47,7 @@ btnAtualizarDados.onclick = ()=> {
 
   <div style=" display: flex; gap: 10px; ">
     <button class="btnCancelar">Cancelar <i class="fa-regular fa-circle-xmark"></i></button>
-    <button class="btnConfirmar">confirmar <i class="fa-regular fa-circle-check"></i></button>
+    <button class="btnConfirmar">Confirmar <i class="fa-regular fa-circle-check"></i></button>
   </div>
   `
 
