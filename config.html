@@ -16,36 +16,35 @@
             <button class="btnAtualizarDados">Atualizar Dados <i class="fa-solid fa-user-pen"></i></button>
         </div>
 
-        
-        
-
+        <fieldset style=" width: 400px; margin: 0 auto; ">
+            <legend>Ano de Visualização (Contas)</legend>
+            <div style=" display: flex; align-items: center; gap: 10px;">
+                <input type="text" value="2025" style=" width: 80px; text-align: center;">
+                <button>Salvar</button>
+            </div>
+        </fieldset>
     </main>
 
     <style>
+        .nomeUsuario {
+            margin: 0px auto;
+            padding: 40px;
+            background: #d0d0e7;
+            border-radius: 40% 60% 65% 35% / 40% 35% 65% 60%; }
 
-    .nomeUsuario {
-        margin: 0px auto;
-        padding: 40px;
-        background: #d0d0e7;
-        border-radius: 40% 60% 65% 35% / 40% 35% 65% 60%; }
+        .btnsConfig {
+            display: flex; flex-flow: row; gap: 20px; 
+            max-width: 500px; margin: 0px auto;
+            padding-top: 20px;
+        }
 
-    .btnsConfig {
-        display: flex; flex-flow: row; gap: 20px; 
-        max-width: 500px; margin: 0px auto;
-        padding-top: 20px;
-    }
+        .btnsConfig button { 
+            padding: 30px 20px;
+        }
 
-    .btnsConfig button { 
-        padding: 30px 20px;
-    }
-
-    @media screen and (max-width: 450px) {
-         .btnsConfig { flex-flow: column;  }
-    }
-
-
-
-
+        @media screen and (max-width: 450px) {
+            .btnsConfig { flex-flow: column;  }
+        }
     </style>
 
 

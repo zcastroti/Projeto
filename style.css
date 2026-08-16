@@ -59,10 +59,11 @@ main {
     Input e Botão
 --------------------*/
 input,
+select,
 button {
     display: flex; align-items: center; flex-direction: row-reverse; gap: 10px;
     height: 35px; 
-    border-radius: 2px; }
+    border-radius: 5px; }
 
 input { 
     padding: 0px 5px;
@@ -75,13 +76,22 @@ button {
     cursor: pointer;
     padding: 10px;
     border: none;
-    border-radius: 5px;
     color: #282828;
     background: #e2e2e2;
     border: 1px solid #ccc; }
 button:hover { 
     transition: .5s;
     background: #cccccc; }
+
+/*--------------------
+    Fieldset
+--------------------*/
+fieldset { 
+    padding: 10px;
+    border-radius: 5px;
+}
+
+legend { padding: 5px; }
 
 /*--------------------
     Alerta

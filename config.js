@@ -26,14 +26,14 @@ let dados = consulta.data()
 document.querySelector('.nomeUsuario').innerHTML += `${dados.login}`
 
 
-// Funcção - Encerrar Sessão
+// Função - Encerrar Sessão
 let btnEncerrarSessao = document.querySelector('.btnEncerrarSessao')
 btnEncerrarSessao.onclick = ()=> {
   window.location.href = 'index.html'
   localStorage.removeItem('usuario')
 }
 
-
+// Função - Atualizar Dados Cadastrais
 let btnAtualizarDados = document.querySelector('.btnAtualizarDados')
 btnAtualizarDados.onclick = ()=> {
   modal(320)
@@ -76,3 +76,4 @@ btnAtualizarDados.onclick = ()=> {
     alerta('Dados alterados com sucesso!')
   }
 }
+
