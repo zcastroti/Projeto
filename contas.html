@@ -11,7 +11,7 @@
     <main class="conteudo">
 
         <div class="menuContas">
-            <div class="mes" id="Janeiro">Jan <i class="fa-solid fa-calendar-week"></i></div>
+            <div class="mes" id="janeiro">Jan <i class="fa-solid fa-calendar-week"></i></div>
             <div class="mes" id="Fevereiro">Fev <i class="fa-solid fa-calendar-week"></i></div>
             <div class="mes" id="Março">Mar <i class="fa-solid fa-calendar-week"></i></div>
             <div class="mes" id="Abril">Abr <i class="fa-solid fa-calendar-week"></i></div>
@@ -35,7 +35,7 @@
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 15px;
         }
 
@@ -59,6 +59,8 @@
             .mes { padding: 25px 20px; }
         
         }
+
+        @media screen and (max-width: 520px) { .menuContas { grid-template-columns: repeat(3, 1fr); } }
 
         @media screen and (max-height: 500px) {
 
