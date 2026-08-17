@@ -11,31 +11,27 @@
     <main class="conteudo">
         <p class="nomeUsuario"><i class="fa-solid fa-user"></i></p>
 
-        <div class=" btnsConfig ">
+        <div class="btnsConfig ">
             <button class="btnEncerrarSessao">Encerrar Sessão <i class="fa-solid fa-right-from-bracket"></i></button>
             <button class="btnAtualizarDados">Atualizar Dados <i class="fa-solid fa-user-pen"></i></button>
+            <button class="btnVisaoContas">Visão Das Contas <i class="fa-solid fa-eye"></i></button>
         </div>
 
-        <fieldset style=" width: 400px; margin: 0 auto; ">
-            <legend>Ano de Visualização (Contas)</legend>
-            <div style=" display: flex; align-items: center; gap: 10px;">
-                <input type="text" value="2025" style=" width: 80px; text-align: center;">
-                <button>Salvar</button>
-            </div>
-        </fieldset>
     </main>
 
     <style>
         .nomeUsuario {
             margin: 0px auto;
+            margin-top: 10px ;
             padding: 40px;
             background: #d0d0e7;
+            box-shadow: 6px 7px 1px #0000000d;
             border-radius: 40% 60% 65% 35% / 40% 35% 65% 60%; }
 
         .btnsConfig {
             display: flex; flex-flow: row; gap: 20px; 
             max-width: 500px; margin: 0px auto;
-            padding-top: 20px;
+            padding-top: 10px;
         }
 
         .btnsConfig button { 
@@ -47,10 +43,8 @@
         }
     </style>
 
-
     <script type="module" src="config.js"></script>
     <script src="https://kit.fontawesome.com/ac3bdc8044.js" crossorigin="anonymous"></script>
 </body>
 </html>
-
 

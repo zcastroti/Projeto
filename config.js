@@ -77,3 +77,37 @@ btnAtualizarDados.onclick = ()=> {
   }
 }
 
+// Função - Visão Das Contas
+let btnVisaoContas = document.querySelector('.btnVisaoContas')
+btnVisaoContas.onclick = ()=> {
+  modal(300)
+  document.querySelector('.conteudoModal').innerHTML =
+  `
+  <input type="text" class="anoVisaoContas" value="${dados.anoVisaoContas}">
+  <div style=" display: flex; gap: 10px; ">
+      <button class="btnCancelar">Cancelar <i class="fa-regular fa-circle-xmark"></i></button>
+      <button class="btnConfirmar">Confirmar <i class="fa-regular fa-circle-check"></i></button>
+  </div>
+  `
+
+  // Cancelar
+  document.querySelector('.btnCancelar').onclick = ()=> {
+    document.querySelector('.modal')?.remove()
+    document.querySelector('.overlay')?.remove() }
+
+  // Confirmar
+  document.querySelector('.btnConfirmar').onclick = async ()=> {
+    let anoVisaoContas = document.querySelector('.anoVisaoContas').value
+
+    loop()
+    await updateDoc(usuarioREF, { 
+      anoVisaoContas: anoVisaoContas
+    })
+    removeLoop()
+
+    document.querySelector('.modal')?.remove()
+    document.querySelector('.overlay')?.remove()
+    alerta('Dados alterados com sucesso!')
+  }
+
+}
