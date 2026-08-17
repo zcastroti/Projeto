@@ -51,7 +51,7 @@ export function navegacao() {
   `
   <a href="">Home</a>
   <a href="notas.html" class="notas">Notas</a>
-  <a href="#">Contas</a>
+  <a href="contas.html" class="contas">Contas</a>
   <a href="config.html" class="config">Config.</a>
   `
 }
