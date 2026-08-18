@@ -62,7 +62,9 @@ export function gerarIdentificador() {
 }
 
 // Função - Modal
-export function modal(e) {
+export function modal(titulo, tamMax ) {
+  document.querySelector('.modal')?.remove()
+  document.querySelector('.overlay')?.remove()
   
   let overlay = document.createElement('div')
   overlay.classList.add('overlay')
@@ -70,15 +72,22 @@ export function modal(e) {
 
   let modal = document.createElement('div')
   modal.classList.add('modal')
-  modal.style.maxWidth = `${e}px`
+  modal.style.maxWidth = `${tamMax}px`
   overlay.prepend(modal)
-
-
 
   modal.innerHTML = 
   `
-  <div class="conteudoModal"></div>
+  <div class="headModal">
+    <h1>${titulo}</h1>
+    <button class="fecharModal">Fechar <i class="fa-regular fa-circle-xmark"></i></button>
+  </div>
+  <div class="bodyModal"></div>
   `
+
+  document.querySelector('.fecharModal').onclick = ()=> {
+      document.querySelector('.modal')?.remove()
+      document.querySelector('.overlay')?.remove() }
+
 }
 
 // Função - Alerta

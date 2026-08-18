@@ -33,12 +33,11 @@ btnEncerrarSessao.onclick = ()=> {
   localStorage.removeItem('usuario')
 }
 
-// Função - Atualizar Dados Cadastrais
+// Função - Atualização Cadastral
 let btnAtualizarDados = document.querySelector('.btnAtualizarDados')
 btnAtualizarDados.onclick = ()=> {
-  modal(320)
-  document.querySelector('.conteudoModal').innerHTML =
-
+  modal('Atualização Cadastral')
+  document.querySelector('.bodyModal').innerHTML =
   `
   <label for="login">Login</label>
   <input type="text" class="login" value="${dados.login}">
@@ -55,7 +54,6 @@ btnAtualizarDados.onclick = ()=> {
   document.querySelector('.btnCancelar').onclick = ()=> {
     document.querySelector('.modal')?.remove()
     document.querySelector('.overlay')?.remove() }
-
 
   // Confirmar
   document.querySelector('.btnConfirmar').onclick = async ()=> {
@@ -80,8 +78,8 @@ btnAtualizarDados.onclick = ()=> {
 // Função - Visão Das Contas
 let btnVisaoContas = document.querySelector('.btnVisaoContas')
 btnVisaoContas.onclick = ()=> {
-  modal(300)
-  document.querySelector('.conteudoModal').innerHTML =
+  modal('Visão Das Contas')
+  document.querySelector('.bodyModal').innerHTML =
   `
   <input type="text" class="anoVisaoContas" value="${dados.anoVisaoContas}">
   <div style=" display: flex; gap: 10px; ">

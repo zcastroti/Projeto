@@ -82,6 +82,14 @@ button:hover {
     transition: .5s;
     background: #cccccc; }
 
+
+.grid5 {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+}
+
 /*--------------------
     Tabela
 --------------------*/
@@ -140,7 +148,12 @@ td {
     background: #f5f5f7;
     border-radius: 5px; }
 
-.conteudoModal { 
+.headModal { 
+    display: flex; align-items: center; justify-content: space-between; 
+    padding: 10px; }
+.headModal h1 { font-size: 20px; font-weight: bold; }
+
+.bodyModal { 
     display: flex; flex-direction: column; gap: 10px; 
     padding: 10px;}
 
