@@ -12,13 +12,14 @@ import {
   orderBy
 } from './script.js'
 
-import { navegacao , gerarIdentificador , modal , alerta , loop, removeLoop } from './script.js'
+import { navegacao , gerarIdentificador , modal , alerta , loop, removeLoop, paginarTabela } from './script.js'
 
 navegacao()
 document.querySelector('.contas')?.classList.add('destaque')
 
 const USUARIO = localStorage.getItem('usuario')
 
+// Função - Listar Meses Conforme Ano Configurado
 listarMeses()
 function listarMeses() {
   let menuContas = document.querySelector('.menuContas')
@@ -39,6 +40,7 @@ function listarMeses() {
   }
 }
 
+// Função - Carregar Contas Conforme Mês Selecionado
 async function carregarMes(a, m) {
   let ano = String(a)
   let mes = String(m)
@@ -52,11 +54,16 @@ async function carregarMes(a, m) {
   modal(mes)
   document.querySelector('.bodyModal').innerHTML = 
   `
-  <table class="tabelaContas">
-    <thead>
-    </thead>
+  <table id="tabela">
     <tbody class="corpoTabela"></tbody>
   </table>
+
+  <!-- Paginação -->
+  <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+      <button class="btnVoltar">&lt; Voltar</button>
+      <p class="nomePagina">Página 1 de 1</p>
+      <button class="btnAvancar">Avançar &gt;</button>
+  </div>
   `
 
   let corpoTabela = document.querySelector('.corpoTabela')
@@ -64,22 +71,24 @@ async function carregarMes(a, m) {
   if (!consulta.empty) {
     consulta.forEach(docSnap => {
       let dados = docSnap.data()
-      let tr = document.createElement('tr')
-      tr.innerHTML = `
-        <td>${dados.nome || ''}</td>
-        <td>${dados.valor || 0}</td>
-        <td>${dados.vencimento || 0}</td>
-        <td>${dados.parcela || 0}</td>
+      let tr1 = document.createElement('tr')
+      tr1.innerHTML = `
+        <td class="col-nome">${dados.nome || ''}</td>
+        <td class="col-valor">R$ ${dados.valor || ''}</td>
+        <td class="col-btnEditar"><button><i class="fa-solid fa-gear"></i></button></td>
       `
-      corpoTabela.appendChild(tr)
+      corpoTabela.appendChild(tr1)
+
     })
   } else { corpoTabela.innerHTML = `<tr><td colspan="2">Nenhuma Conta</td></tr>` }
 
   adicionarConta(a, m)
+
+  paginarTabela('#tabela', 10); 
 }
 
-function adicionarConta(a, m) {
 
+function adicionarConta(a, m) {
   let ano = String(a)
   let mes = String(m)
 
@@ -145,7 +154,6 @@ function adicionarConta(a, m) {
           parcela: parcela
         })
         
-
         document.querySelector('.modal')?.remove()
         document.querySelector('.overlay')?.remove()
 
@@ -153,7 +161,6 @@ function adicionarConta(a, m) {
         removeLoop()
         alerta('Conta cadastrada com sucesso!')
     }
-
 
   }
 }

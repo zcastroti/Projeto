@@ -24,10 +24,13 @@
             <div class="mes" id="Novembro">Nov <i class="fa-solid fa-calendar-week"></i></div>
             <div class="mes" id="Dezembro">Dez <i class="fa-solid fa-calendar-week"></i></div>
         </div>
-
     </main>
 
     <style>
+
+        .modal {
+            max-height: 1000px;
+        }
 
         i { pointer-events: none; }
 
@@ -54,11 +57,17 @@
 
 
         .grid5 div { display: flex; flex-flow: column; }
-
         .grid5 div:nth-child(1) { grid-column: span 5; }
         .grid5 div:nth-child(2) { grid-column: span 2; }
         .grid5 div:nth-child(3) { grid-column: span 2; }
         .grid5 div:nth-child(4) { grid-column: span 1; }
+
+
+        .col-nome { text-align: left; }
+        .col-btnEditar { width: 70px; max-width: 70px; }
+        .col-valor { text-align: left; }
+        .col-vencimento {text-align: left; }
+        .col-parcela { text-align: left; }
 
 
         @media screen and (max-width: 450px) {

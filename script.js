@@ -49,7 +49,7 @@ export function navegacao() {
 
   nav.innerHTML =
   `
-  <a href="">Home</a>
+  <a href="home.html" class="home">Home</a>
   <a href="notas.html" class="notas">Notas</a>
   <a href="contas.html" class="contas">Contas</a>
   <a href="config.html" class="config">Config.</a>
@@ -112,4 +112,65 @@ export function loop() {
 // Função - Remover Loop de Carregamento
 export function removeLoop() { 
   document.querySelector('.loop')?.remove() 
+}
+
+// Função - Paginar Tabela
+export function paginarTabela(seletorTabela, itensPorPagina = 10) {
+    const tabela = document.querySelector(seletorTabela);
+    if (!tabela) return;
+
+    const tbody = tabela.querySelector('tbody');
+    if (!tbody) return;
+
+    const linhas = Array.from(tbody.querySelectorAll('tr'));
+    let paginaAtual = 1;
+    const totalPaginas = Math.ceil(linhas.length / itensPorPagina) || 1;
+
+    // Encontra os botões e o texto dentro do mesmo container da tabela
+    const container = tabela.closest('.tabela-container') || tabela.parentElement;
+    const btnVoltar = container.querySelector('.btnVoltar');
+    const btnAvancar = container.querySelector('.btnAvancar');
+    const nomePagina = container.querySelector('.nomePagina');
+
+    function atualizarExibicao() {
+        const inicio = (paginaAtual - 1) * itensPorPagina;
+        const fim = inicio + itensPorPagina;
+
+        // Mostra apenas as linhas da página atual e oculta o restante
+        linhas.forEach((linha, indice) => {
+            linha.style.display = (indice >= inicio && indice < fim) ? '' : 'none';
+        });
+
+        // Atualiza o texto da página
+        if (nomePagina) {
+            nomePagina.textContent = `Página ${paginaAtual} de ${totalPaginas}`;
+        }
+
+        // Controla o estado visual dos botões (opcional: desativa nos limites)
+        if (btnVoltar) btnVoltar.disabled = (paginaAtual === 1);
+        if (btnAvancar) btnAvancar.disabled = (paginaAtual === totalPaginas);
+    }
+
+    // Evento de Voltar
+    if (btnVoltar) {
+        btnVoltar.addEventListener('click', () => {
+            if (paginaAtual > 1) {
+                paginaAtual--;
+                atualizarExibicao();
+            }
+        });
+    }
+
+    // Evento de Avançar
+    if (btnAvancar) {
+        btnAvancar.addEventListener('click', () => {
+            if (paginaAtual < totalPaginas) {
+                paginaAtual++;
+                atualizarExibicao();
+            }
+        });
+    }
+
+    // Executa a primeira vez para aplicar a paginação inicial
+    atualizarExibicao();
 }
